@@ -23,7 +23,7 @@ The Leaflet dependency provides a method to build geographical representations. 
 The visual for the map itself was obtained from Mapbox.com, an API for geographical information. The map built allows the user to zoom in and out and grab the map to transition. Placed on top of the map are bubbles that represent each earthquake. The size and color of the bubble correlates to the magnitute of the earthquake.
 Each bubble contains further information in a tooltip pop-up about each earthquake when clicked on.
 
-![Image](Leaflet-Step-1/Images/Finished Image.png)
+![Finished](Leaflet-Step-1/Images/Finished.png)
 
 ## Getting Started
 
