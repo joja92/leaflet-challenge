@@ -1,8 +1,10 @@
+/* no margins or padding */
 body {
   padding: 0;
   margin: 0;
 }
 
+/* cover entire page */
 #map,
 body,
 html {
