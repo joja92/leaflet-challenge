@@ -1,3 +1,4 @@
+// map wrapper
 var myMap = L.map("map", {
     center: [
         0, 0
@@ -16,10 +17,12 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 // source for earthquake data
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
+// adjust size of bubbles
 function markerSize(magnitude) {
     return magnitude * 30000;
 }
 
+// change color of bubbles depending on magnitude
 function markerColor(magnitude) {
     if (magnitude < 1) {
         return "green";
