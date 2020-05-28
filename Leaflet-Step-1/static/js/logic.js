@@ -5,6 +5,7 @@ var myMap = L.map("map", {
     zoom: 3,
 });
 
+// pull map visual
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 15,
@@ -12,6 +13,7 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
         accessToken: API_KEY
     }).addTo(myMap);
 
+// source for earthquake data
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
 function markerSize(magnitude) {
@@ -33,13 +35,14 @@ function markerColor(magnitude) {
         return "maroon";
     }
 }
-
+// use D3 to build interactive map
 d3.json(queryUrl, function(response) {
     console.log(response);
 
     var quakeArray = [];
     var placeArray = [];
 
+    // extract desired information for each earthquake
     for (var i = 0; i < response.features.length; i++) {
         var thisQuake = response.features[i];
 
@@ -49,6 +52,7 @@ d3.json(queryUrl, function(response) {
         }
     }
 
+    // generate bubbles
     for (var i = 0; i < quakeArray.length; i++) {
         L.circle(quakeArray[i], {
             fillOpacity: 0.6,
@@ -58,6 +62,7 @@ d3.json(queryUrl, function(response) {
         }).bindPopup("<h1>" + placeArray[i] + "</h1> <hr> <h3>Coordinates: " + quakeArray[i][0] + ", " + quakeArray[i][1] + "</h3> <hr> <h3>Magnitude: " + quakeArray[i][2] + "</h3>").addTo(myMap);
     }
 
+    // create legend
     var legend = L.control({
         position: "bottomright"
     });
@@ -80,9 +85,3 @@ d3.json(queryUrl, function(response) {
     };
     legend.addTo(myMap);
 });
-
-
-// sample data
-// {"type":"FeatureCollection","metadata":{"generated":1572371294000,"url":"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson","title":"USGS All Earthquakes, Past Week","status":200,"api":"1.8.1","count":2260},"features":[
-//     {"type":"Feature","properties":{"mag":2.04,"place":"5km E of Pahala, Hawaii","time":1572370957350,"updated":1572371140320,"tz":-600,"url":"https://earthquake.usgs.gov/earthquakes/eventpage/hv71203686","detail":"https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/hv71203686.geojson","felt":null,"cdi":null,"mmi":null,"alert":null,"status":"automatic","tsunami":0,"sig":64,"net":"hv","code":"71203686","ids":",hv71203686,","sources":",hv,","types":",geoserve,origin,phase-data,","nst":38,"dmin":0.050849999999999999,"rms":0.11,"gap":143,"magType":"md","type":"earthquake","title":"M 2.0 - 5km E of Pahala, Hawaii"},"geometry":{"type":"Point","coordinates":[-155.43133539999999,19.197332400000001,35.57]},"id":"hv71203686"},
-//     {"type":"Feature","properties":{"mag":2.1099999999999999,"place":"4km ESE of Pahala, Hawaii","time":1572370923870,"updated":1572371263070,"tz":-600,"url":"https://earthquake.usgs.gov/earthquakes/eventpage/hv71203681","detail":"https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/hv71203681.geojson","felt":null,"cdi":null,"mmi":null,"alert":null,"status":"automatic","tsunami":0,"sig":68,"net":"hv","code":"71203681","ids":",hv71203681,","sources":",hv,","types":",geoserve,origin,phase-data,","nst":43,"dmin":0.044339999999999997,"rms":0.12,"gap":149,"magType":"ml","type":"earthquake","title":"M 2.1 - 4km ESE of Pahala, Hawaii"},"geometry":{"type":"Point","coordinates":[-155.4358368,19.1923332,35.420000000000002]},"id":"hv71203681"}
